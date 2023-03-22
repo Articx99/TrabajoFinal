@@ -1,40 +1,47 @@
-<?php
-
+<?php 
 namespace App\Controllers;
 
-use App\Models\TareasModel;
+use CodeIgniter\Controller;
+use App\Models\Tarea;
+class Tareas extends Controller{
+    public function index(){  
+        
+        $tareas = new Tarea();
+        $datos['tareas'] = $tareas->orderBy('id', 'AS')->findAll();
+        $datos['header'] = view('templates/header');
+        $datos['footer'] = view('templates/footer');
+        return view('tareas/ver',$datos);
 
-class Tareas extends BaseController
-{
-    public function index()
-    {
-        $model = model(TareasModel::class);
 
-        $data = [
-            'tareas'  => $model->getTareas(),
-            'title' => 'Gestor de tareas',
+    }
+
+    public function guardar(){
+
+        $tarea = new Tarea();
+        $contenidoTarea=$this->request->getVar('task');
+        $datos=[
+            'tarea' => $contenidoTarea
         ];
+        $tarea->insert($datos);
 
-        return view('templates/header', $data)
-            . view('pages/tareas')
-            . view('templates/footer');
+        echo "Ingresado a la base de datos.";
+
     }
-    
 
-    public function view($slug = null)
-    {
-        $model = model(TareasModel::class);
-        
-        $data['tareas'] = $model->getTareas($slug);
-        
-        if (empty($data['tareas'])) {
-            throw new PageNotFoundException('Cannot find the tareas item: ' . $slug);
+    public function delete($id){
+        $tarea = new Tarea();
+        $datos = [];
+        if($tarea->delete($id)){
+            $datos['mensaje']['texto'] = "Se ha eliminado la tarea con éxito.";
+            $datos['mensaje']['class'] = "success";
         }
-
-        $data['title'] = "Gestor tareas";
-
-        return view('templates/header', $data)
-            . view('pages/tareas')
-            . view('templates/footer');
+        else{
+            $datos['mensaje']['texto'] = "No se ha podido eliminar la tarea por un error desconocido."; 
+            $datos['mensaje']['class'] = "warning";  
+        }
+        $datos['header'] = view('templates/header');
+        $datos['footer'] = view('templates/footer');
+        return view('tareas/ver',$datos);
     }
+
 }
