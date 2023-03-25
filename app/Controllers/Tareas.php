@@ -10,6 +10,7 @@ class Tareas extends Controller{
         $datos['tareas'] = $tareas->orderBy('id', 'AS')->findAll();
         $datos['header'] = view('templates/header');
         $datos['footer'] = view('templates/footer');
+        $datos['sidebar'] = view('templates/sidebar');
         return view('tareas/ver',$datos);
 
 
@@ -30,18 +31,31 @@ class Tareas extends Controller{
 
     public function delete($id){
         $tarea = new Tarea();
-        $datos = [];
-        if($tarea->delete($id)){
-            $datos['mensaje']['texto'] = "Se ha eliminado la tarea con éxito.";
-            $datos['mensaje']['class'] = "success";
+        
+        if($tarea->where('id',$id)->delete($id)){
+            $_SESSION['mensaje']['texto'] = "Se ha eliminado la tarea con éxito.";
+            $_SESSION['mensaje']['class'] = "success";
         }
         else{
-            $datos['mensaje']['texto'] = "No se ha podido eliminar la tarea por un error desconocido."; 
-            $datos['mensaje']['class'] = "warning";  
+            $_SESSION['mensaje']['texto'] = "No se ha podido eliminar la tarea por un error desconocido."; 
+            $_SESSION['mensaje']['class'] = "warning";  
         }
-        $datos['header'] = view('templates/header');
-        $datos['footer'] = view('templates/footer');
-        return view('tareas/ver',$datos);
+       
+        return $this->response->redirect(site_url('/tareas'));
+    }
+    public function edit($id){
+        $tarea = new Tarea();
+        
+        if($tarea->where('id',$id)->update($id)){
+            $_SESSION['mensaje']['texto'] = "Se ha eliminado la tarea con éxito.";
+            $_SESSION['mensaje']['class'] = "success";
+        }
+        else{
+            $_SESSION['mensaje']['texto'] = "No se ha podido eliminar la tarea por un error desconocido."; 
+            $_SESSION['mensaje']['class'] = "warning";  
+        }
+       
+        return $this->response->redirect(site_url('/tareas'));
     }
 
 }

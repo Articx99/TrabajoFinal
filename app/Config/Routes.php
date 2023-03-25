@@ -6,6 +6,7 @@ use App\Controllers\Tareas;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
+session_start();
 
 /*
  * --------------------------------------------------------------------
@@ -17,6 +18,8 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->get('tareas', 'Tareas::index');
 $routes->post('save', 'Tareas::guardar');
 $routes->get('delete/(:num)', 'Tareas::delete/$1');
+$routes->get('edit/(:num)', 'Tareas::edit/$1');
+
 
 
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
