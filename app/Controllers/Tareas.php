@@ -7,11 +7,11 @@ class Tareas extends Controller{
     public function index(){  
         
         $tareas = new Tarea();
-        $datos['tareas'] = $tareas->orderBy('id', 'AS')->findAll();
+        
+        $datos['tareas'] = $tareas->getAll();
         $datos['header'] = view('templates/header');
         $datos['footer'] = view('templates/footer');
-        $datos['sidebar'] = view('templates/sidebar');
-        return view('tareas/ver',$datos);
+        return view('index',$datos);
 
 
     }
@@ -20,12 +20,22 @@ class Tareas extends Controller{
 
         $tarea = new Tarea();
         $contenidoTarea=$this->request->getVar('task');
+        $id_usuario=$this->request->getVar('id_usuario');
         $datos=[
-            'tarea' => $contenidoTarea
+            'tarea' => $contenidoTarea,
+            'id_usuario' => $id_usuario,
+            'id_estado' => 1
         ];
-        $tarea->insert($datos);
-
-        echo "Ingresado a la base de datos.";
+        if($tarea->insert($datos)){
+            $_SESSION['mensaje']['texto'] = "Se ha guardado la tarea con éxito.";
+            $_SESSION['mensaje']['class'] = "success";
+        }
+        else{
+            $_SESSION['mensaje']['texto'] = "No se ha podido guardar la tarea por un error desconocido."; 
+            $_SESSION['mensaje']['class'] = "warning";  
+        }
+       
+        return $this->response->redirect(site_url('/'));
 
     }
 
@@ -33,6 +43,7 @@ class Tareas extends Controller{
         $tarea = new Tarea();
         
         if($tarea->where('id',$id)->delete($id)){
+            $tarea->
             $_SESSION['mensaje']['texto'] = "Se ha eliminado la tarea con éxito.";
             $_SESSION['mensaje']['class'] = "success";
         }
@@ -41,7 +52,7 @@ class Tareas extends Controller{
             $_SESSION['mensaje']['class'] = "warning";  
         }
        
-        return $this->response->redirect(site_url('/tareas'));
+        return $this->response->redirect(site_url('/'));
     }
     public function edit($id){
         $tarea = new Tarea();
@@ -55,7 +66,7 @@ class Tareas extends Controller{
             $_SESSION['mensaje']['class'] = "warning";  
         }
        
-        return $this->response->redirect(site_url('/tareas'));
+        return $this->response->redirect(site_url('/'));
     }
 
 }

@@ -16,9 +16,6 @@
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar">
             <div class="p-4 pt-5">
-                <div class="hedaer">
-                    <img src="http://tasklist.localhost:8080/assets/images/logo3.png" width="280" height="auto">
-                </div>
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a>
                 <ul class="list-unstyled components mb-5">
                     <li class="active">
@@ -36,17 +33,16 @@
                             </li>
                         </ul>
                     </li>
-                    <?php if(isset($_SESSION['admin_panel']) && $_SESSION['admin_panel']  == 'rwd'){ ?>
-                        <li>
-                            <a href="<?php base_url() . "/admin" ?>">Admin</a>
-                        </li>
-                    <?php }?>
+                    <li>
+                        <a href="#">Usuarios</a>
+                    </li>
+                    <li>
+                        <a href="#">Tareas</a>
+                    </li>
                     <li>
                         <a href="#">Borrador</a>
                     </li>
-                    <li>
-                        <a href="#">Sobre mi</a>
-                    </li>
+
                 </ul>
 
                 <div class="footer">
@@ -77,11 +73,11 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="#">suarios</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-red" href="<?php echo base_url().'logout'?>"><i class="bi bi-box-arrow-left"></i>&nbsp;
+                                <a class="nav-link text-red" href="#"><i class="bi bi-box-arrow-left"></i>&nbsp;
                                     Logout</a>
                             </li>
                         </ul>

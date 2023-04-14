@@ -6,19 +6,32 @@ use App\Controllers\Tareas;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
-session_start();
 
-/*
- * --------------------------------------------------------------------
- * Router Setup
- * --------------------------------------------------------------------
- */
+$routes->setDefaultNamespace('App\Controllers'); 
+$routes->setDefaultController('Login');
+$routes->setDefaultMethod('index');
 
-$routes->setDefaultNamespace('App\Controllers');         
-$routes->get('tareas', 'Tareas::index');
-$routes->post('save', 'Tareas::guardar');
-$routes->get('delete/(:num)', 'Tareas::delete/$1');
-$routes->get('edit/(:num)', 'Tareas::edit/$1');
+if (!session()->get('username')) {
+    $routes->get('login', 'Login::index');
+    $routes->post('login', 'Login::index');
+
+    $routes->setAutoRoute(false);
+    $routes->get('/', function () {
+        $response = Services::response();
+        return $response->redirect('login', 'auto', 302);
+    });
+    $routes->add('(:any)', function () {
+        $response = Services::response();
+        return $response->redirect('login', 'auto', 302);
+    });
+} else {     
+    $routes->get('logout', 'Login::logout');   
+    $routes->get('/', 'Tareas::index');     
+    $routes->post('save', 'Tareas::guardar');
+    $routes->get('delete/(:num)', 'Tareas::delete/$1');
+    $routes->get('edit/(:num)', 'Tareas::edit/$1');
+}
+
 
 
 
@@ -36,7 +49,7 @@ $routes->get('edit/(:num)', 'Tareas::edit/$1');
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+
 
 /*
  * --------------------------------------------------------------------

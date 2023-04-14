@@ -40,6 +40,10 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+  th.columna-ancho-auto {
+    width: auto;
+  }
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
