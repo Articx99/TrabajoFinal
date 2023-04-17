@@ -7,7 +7,7 @@ use App\Controllers\Tareas;
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
-$routes->setDefaultNamespace('App\Controllers'); 
+$routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Login');
 $routes->setDefaultMethod('index');
 
@@ -24,12 +24,19 @@ if (!session()->get('username')) {
         $response = Services::response();
         return $response->redirect('login', 'auto', 302);
     });
-} else {     
-    $routes->get('logout', 'Login::logout');   
-    $routes->get('/', 'Tareas::index');     
+} else {
+    $routes->get('logout', 'Login::logout');
+    $routes->get('/', 'Tareas::index');
     $routes->post('save', 'Tareas::guardar');
-    $routes->get('delete/(:num)', 'Tareas::delete/$1');
-    $routes->get('edit/(:num)', 'Tareas::edit/$1');
+    $routes->get('delete/(:num)/(:num)', 'Tareas::delete/$1/$2');
+    $routes->get('permaDelete/(:num)/(:num)', 'Tareas::permaDelete/$1/$2');
+    $routes->get('recuperar/(:num)/(:num)', 'Tareas::recuperarTarea/$1/$2');
+    $routes->get('edit/(:num)/(:num)', 'Tareas::viewEdit/$1/$2');
+    $routes->post('edit', 'Tareas::edit');
+    $routes->get('borrador', 'Tareas::borrador');
+    $routes->get('about', 'Tareas::about');
+    $routes->get('usuarios', 'Usuarios::getUsers');
+
 }
 
 

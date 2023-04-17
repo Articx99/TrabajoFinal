@@ -21,31 +21,23 @@
                 </div>
                 <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a>
                 <ul class="list-unstyled components mb-5">
-                    <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-                            class="dropdown-toggle">Home</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li>
-                                <a href="#">Home 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Home 2</a>
-                            </li>
-                            <li>
-                                <a href="#">Home 3</a>
-                            </li>
-                        </ul>
+                    <li>
+                        <a href="<?php echo base_url() ?>">Home</a>
                     </li>
+                   
                     <?php if(isset($_SESSION['admin_panel']) && $_SESSION['admin_panel']  == 'rwd'){ ?>
                         <li>
-                            <a href="<?php base_url() . "/admin" ?>">Admin</a>
+                            <a href="<?php echo base_url() . "usuarios" ?>">Usuarios</a>
                         </li>
                     <?php }?>
                     <li>
-                        <a href="#">Borrador</a>
+                        <a href="<?php echo base_url() . "etiquetas" ?>">Etiquetas</a>
                     </li>
                     <li>
-                        <a href="#">Sobre mi</a>
+                        <a href="<?php echo base_url() . "borrador" ?>">Borrador</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url() ."about"?>">Sobre Nosotros</a>
                     </li>
                 </ul>
 
@@ -77,7 +69,11 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="<?php echo base_url() ?>">Home</a>
+                            </li>
+
+                            <li class="nav-item active">
+                                <a class="nav-link" href="<?php echo base_url() ?>"><?php echo $_SESSION['username']['username']?></a>
                             </li>
 
                             <li class="nav-item">

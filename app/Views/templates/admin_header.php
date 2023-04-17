@@ -34,13 +34,13 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#">Usuarios</a>
+                        <a href="<?php echo base_url() . "usuarios" ?>">Usuarios</a>
                     </li>
                     <li>
-                        <a href="#">Tareas</a>
+                        <a href="<?php echo base_url()?>">Tareas</a>
                     </li>
                     <li>
-                        <a href="#">Borrador</a>
+                        <a href="<?php echo base_url() . "borrador" ?>">Borrador</a>
                     </li>
 
                 </ul>
