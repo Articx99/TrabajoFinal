@@ -19,7 +19,7 @@
                 <div class="hedaer">
                     <img src="http://tasklist.localhost:8080/assets/images/logo3.png" width="280" height="auto">
                 </div>
-                <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a>
+                
                 <ul class="list-unstyled components mb-5">
                     <li>
                         <a href="<?php echo base_url() ?>">Home</a>

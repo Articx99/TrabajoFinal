@@ -36,6 +36,8 @@
         </div>
     </form>
 <?php endif ?>
+<input class="form-check-input" type="checkbox" class="checkbox" id='showAll' <?php echo ($_SESSION['showAll'] == 'true') ? 'checked' : ''?>>
+<label for="showAll">Mostrar completadas</label>
 <table class="table mb-4">
     <thead>
         <tr>
@@ -61,7 +63,7 @@
                     <tr class="complete">
                         <?php if (!isset($borrador)): ?>
                             <td>
-                                <input class="form-check-input" type="checkbox" id="checkbox" value="option1">
+                                <input class="form-check-input" type="checkbox" class="checkbox" data-id="<?php echo $tarea['id']?>" data-id_usuario="<?php echo $tarea['id_usuario']?>" <?php echo ($tarea['id_estado'] == 2) ? 'checked' : ''?>>
                             </td>
                         <?php endif ?>
                         <th scope="row">

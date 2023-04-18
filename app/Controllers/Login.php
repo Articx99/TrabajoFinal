@@ -56,6 +56,7 @@ class Login extends Controller
             'id'         => $user['id_usuario'],
             'username'   => $user,
             'admin_panel' => '',
+            'showAll' => false
         ];
 		if($user['id_rol'] == self::ADMINISTADOR){
 			$data['admin_panel'] = 'rwd';
@@ -64,7 +65,9 @@ class Login extends Controller
     }
 
 	public function logout(){
+        
 		session()->destroy();
+        
 		return redirect()->to('/');
 	}
 

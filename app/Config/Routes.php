@@ -36,6 +36,8 @@ if (!session()->get('username')) {
     $routes->get('borrador', 'Tareas::borrador');
     $routes->get('about', 'Tareas::about');
     $routes->get('usuarios', 'Usuarios::getUsers');
+    $routes->post('complete', 'Tareas::complete');
+    $routes->post('getCompleted', 'Tareas::getCompleted');   
 
 }
 
