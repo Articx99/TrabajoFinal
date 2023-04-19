@@ -35,10 +35,11 @@
             </div>
         </div>
     </form>
+    <input class="form-check-input" type="checkbox" class="checkbox" id='showAll' <?php echo ($_SESSION['showAll'] == 'true') ? 'checked' : ''?>>
+    <label for="showAll">Mostrar completadas</label>
 <?php endif ?>
-<input class="form-check-input" type="checkbox" class="checkbox" id='showAll' <?php echo ($_SESSION['showAll'] == 'true') ? 'checked' : ''?>>
-<label for="showAll">Mostrar completadas</label>
-<table class="table mb-4">
+
+<table class="table mb-4" >
     <thead>
         <tr>
             <?php if (!isset($borrador)): ?>
@@ -60,10 +61,10 @@
 
             <?php foreach ($tareas as $tarea): ?>
                 <?php if ($tarea['id_usuario'] == $_SESSION['id'] || $_SESSION['admin_panel'] == 'rwd'): ?>
-                    <tr class="complete">
+                    <tr class="<?php echo $tarea['username'].$tarea['id']?>">
                         <?php if (!isset($borrador)): ?>
                             <td>
-                                <input class="form-check-input" type="checkbox" class="checkbox" data-id="<?php echo $tarea['id']?>" data-id_usuario="<?php echo $tarea['id_usuario']?>" <?php echo ($tarea['id_estado'] == 2) ? 'checked' : ''?>>
+                                <input class="form-check-input" type="checkbox" class="checkbox" data-username="<?php echo $tarea['username']?>" data-id="<?php echo $tarea['id']?>" data-id_usuario="<?php echo $tarea['id_usuario']?>" <?php echo ($tarea['id_estado'] == 2) ? 'checked' : ''?>>
                             </td>
                         <?php endif ?>
                         <th scope="row">
@@ -81,8 +82,7 @@
                             </td>
                         <?php endif ?>
                         <td>
-                            <a href="<?php echo isset($borrador) ? base_url('permaDelete/' . $tarea['id_usuario'] . '/' . $tarea['id']) : base_url('delete/' . $tarea['id_usuario'] . '/' . $tarea['id']) ?>"
-                                class="btn btn-danger button-to-strike" type="button">Delete</a>
+                            <button class="btn btn-danger button-to-strike" onclick="deleteTarea('<?php echo $tarea['id']?>', '<?php echo $tarea['id_usuario']?>', '<?php echo $tarea['username']?>')">Delete</button>
                             <?php if (!isset($borrador)) { ?>
                                 <a href="<?= base_url('edit/'  . $tarea['id_usuario'] . '/' . $tarea['id']) ?>" class="btn btn-info button-to-strike"
                                     type="button">Editar</a>

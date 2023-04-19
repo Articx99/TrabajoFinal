@@ -9,13 +9,13 @@ class Tareas extends Controller
     public function index()
     {
         $tareas = new Tarea();
-        if ($_SESSION['showAll'] == 'true') {           
+        if ($_SESSION['showAll'] == 'true') {
             $datos['tareas'] = $tareas->getAll();
         } else {
-            
+
             $datos['tareas'] = $tareas->getActive();
         }
-        
+
         $datos['header'] = view('templates/header');
         $datos['footer'] = view('templates/footer');
         return view('index', $datos);
@@ -26,9 +26,9 @@ class Tareas extends Controller
         $datos['footer'] = view('templates/footer');
         return view('about', $datos);
     }
-    public function getCompleted(){   
+    public function getCompleted()
+    {
         $showAll = $this->request->getVar('showAll');
-        
         session()->set('showAll', $showAll);
         return $this->response->redirect(site_url('/'));
     }
@@ -85,10 +85,11 @@ class Tareas extends Controller
 
     }
 
-    public function delete($id_usuario, $id)
+    public function delete()
     {
         $tarea = new Tarea();
-
+        $id = $this->request->getVar('id');
+        $id_usuario = $this->request->getVar('id_usuario');
         if ($tarea->deleteTarea($id_usuario, $id)) {
             $_SESSION['mensaje']['texto'] = "Se ha eliminado la tarea con éxito.";
             $_SESSION['mensaje']['class'] = "success";
