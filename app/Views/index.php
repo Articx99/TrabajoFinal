@@ -64,7 +64,7 @@
                     <tr class="<?php echo $tarea['username'].$tarea['id']?>">
                         <?php if (!isset($borrador)): ?>
                             <td>
-                                <input class="form-check-input" type="checkbox" class="checkbox" data-username="<?php echo $tarea['username']?>" data-id="<?php echo $tarea['id']?>" data-id_usuario="<?php echo $tarea['id_usuario']?>" <?php echo ($tarea['id_estado'] == 2) ? 'checked' : ''?>>
+                                <input class="form-check-input" type="checkbox" id="checkbox" data-username="<?php echo $tarea['username']?>" data-id="<?php echo $tarea['id']?>" data-id_usuario="<?php echo $tarea['id_usuario']?>" <?php echo ($tarea['id_estado'] == 2) ? 'checked' : ''?>>
                             </td>
                         <?php endif ?>
                         <th scope="row">
@@ -82,7 +82,7 @@
                             </td>
                         <?php endif ?>
                         <td>
-                            <button class="btn btn-danger button-to-strike" onclick="deleteTarea('<?php echo $tarea['id']?>', '<?php echo $tarea['id_usuario']?>', '<?php echo $tarea['username']?>')">Delete</button>
+                            <button class="btn btn-danger button-to-strike" onclick="deleteTarea('<?php echo $tarea['id']?>', '<?php echo $tarea['id_usuario']?>', '<?php echo $tarea['username']?>', '<?php echo isset($borrador) ? 'permaDelete' : 'delete' ?>')">Delete</button>
                             <?php if (!isset($borrador)) { ?>
                                 <a href="<?= base_url('edit/'  . $tarea['id_usuario'] . '/' . $tarea['id']) ?>" class="btn btn-info button-to-strike"
                                     type="button">Editar</a>

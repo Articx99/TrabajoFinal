@@ -7,7 +7,7 @@
 <script src="http://tasklist.localhost:8080/assets/js/main.js"></script>
 <script src="http://tasklist.localhost:8080/assets/js/anime.min.js"></script>
 <script>
-    
+
     document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
             var estado = checkbox.checked;
@@ -46,12 +46,12 @@
     });
 
 
-    function deleteTarea(id, id_usuario, username) {
-        console.log("hola");
+    function deleteTarea(id, id_usuario, username, url) {
+        console.log(url);
         var fila = document.querySelector(`.${username}${id}`);
         var xhr = new XMLHttpRequest();
-        
-        xhr.open('POST', '<?php echo base_url() ?>delete', true);
+
+        xhr.open('POST', `<?php echo base_url() ?>${url}`, true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
             if (xhr.readyState === xhr.DONE && xhr.status === 200) {
@@ -67,7 +67,7 @@
                         fila.remove(); // Elimina la fila una vez que la animación ha terminado
                     }
                 });
-                
+
             }
         };
         var data = 'id=' + id + '&id_usuario=' + id_usuario;
@@ -81,24 +81,28 @@
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
             if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+                var showAll = document.getElementById("showAll");
                 var contenedorTabla = document.querySelector("#content");
                 var fila = document.querySelector('.' + username + id);
-                anime({
+                const animation = anime({
                     targets: fila,
-                    translateX: '110%',
-                    duration: 1000,
-                    easing: 'easeInOutQuad',
+                    translateX: '130%',
+                    duration: 1500,
+                    backgroundColor: '#90EE90',
+                    easing: 'easeInOutSine',
 
                     complete: function () {
                         fila.remove(); // Elimina la fila una vez que la animación ha terminado
                     }
+                
                 });
-                contenedorTabla.style.overflowX = 'hidden';
-            }
-        };
-        var data = 'id=' + id + '&id_usuario=' + id_usuario + '&id_estado=' + id_estado;
-        console.log(data);
-        xhr.send(data);
+                
+            contenedorTabla.style.overflowX = 'hidden';
+        }
+    };
+    var data = 'id=' + id + '&id_usuario=' + id_usuario + '&id_estado=' + id_estado;
+    console.log(data);
+    xhr.send(data);
 
 
     }

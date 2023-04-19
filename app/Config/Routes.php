@@ -29,7 +29,7 @@ if (!session()->get('username')) {
     $routes->get('/', 'Tareas::index');
     $routes->post('save', 'Tareas::guardar');
     $routes->post('delete', 'Tareas::delete');
-    $routes->get('permaDelete/(:num)/(:num)', 'Tareas::permaDelete/$1/$2');
+    $routes->post('permaDelete', 'Tareas::permaDelete');
     $routes->get('recuperar/(:num)/(:num)', 'Tareas::recuperarTarea/$1/$2');
     $routes->get('edit/(:num)/(:num)', 'Tareas::viewEdit/$1/$2');
     $routes->post('edit', 'Tareas::edit');

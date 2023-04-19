@@ -100,10 +100,11 @@ class Tareas extends Controller
 
         return $this->response->redirect(site_url('/'));
     }
-    public function permaDelete($id_usuario, $id)
+    public function permaDelete()
     {
         $tarea = new Tarea();
-
+        $id = $this->request->getVar('id');
+        $id_usuario = $this->request->getVar('id_usuario');
         if ($tarea->permaDelete($id_usuario, $id)) {
             $_SESSION['mensaje']['texto'] = "Se ha eliminado la tarea con éxito.";
             $_SESSION['mensaje']['class'] = "success";
