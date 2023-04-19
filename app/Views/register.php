@@ -64,17 +64,17 @@
            
 				<div class="card-header text-center">
                     <p class="h1" style="border-bottom: 2px solid #ff9800">TaskLists</p>
-					<h4 class="m-0">Iniciar sesión</h4>
+					<h4 class="m-0">Registro de Usuario</h4>
 				</div>
 				<div class="card-body">
 					<?php if(session('error')) : ?>
 						<div class="alert alert-danger"><?= session('error') ?></div>
 					<?php endif ?>
                         
-					<?= form_open('login') ?>
+					<?= form_open('register') ?>
 						<div class="form-group">
 							<label for="username">Nombre de usuario:</label>
-							<input type="text" name="username" class="form-control" value="<?= old('username') ?>">
+							<input type="text" name="username" class="form-control" >
 							<small class="text-small text-danger"><?php echo isset($error['username']) ?  $error['username'] : "" ?></small>
 						</div>
 						<div class="form-group">
@@ -82,8 +82,12 @@
 							<input type="password" name="pass" class="form-control">
 							<small class="text-small text-danger"><?php echo isset($error['pass']) ?  $error['pass'] : "" ?></small>
 						</div>
-                        <a href="<?php echo base_url('register')?>"><small>No tienes cuenta? Regístrate.</small></a>
-						<button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+                        <div class="form-group">
+							<label for="pass">Repite Contraseña:</label>
+							<input type="password" name="pass-repeat" class="form-control">
+							<small class="text-small text-danger"><?php echo isset($error['pass-repeat']) ?  $error['pass-repeat'] : "" ?></small>
+						</div>
+						<button type="submit" class="btn btn-primary btn-block">Regístrate</button>
 					<?= form_close() ?>
 				</div>
 			</div>

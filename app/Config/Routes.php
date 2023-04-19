@@ -14,6 +14,8 @@ $routes->setDefaultMethod('index');
 if (!session()->get('username')) {
     $routes->get('login', 'Login::index');
     $routes->post('login', 'Login::index');
+    $routes->get('register', 'Register::index');
+    $routes->post('register', 'Register::index');
 
     $routes->setAutoRoute(false);
     $routes->get('/', function () {

@@ -17,7 +17,9 @@
         <nav id="sidebar">
             <div class="p-4 pt-5">
                 <div class="hedaer">
+                    <a href="http://tasklist.localhost:8080/">
                     <img src="http://tasklist.localhost:8080/assets/images/logo3.png" width="280" height="auto">
+                    </a>
                 </div>
                 
                 <ul class="list-unstyled components mb-5">
