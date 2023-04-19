@@ -10,6 +10,7 @@
 
     document.querySelectorAll('input[type=checkbox]').forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
+            
             var estado = checkbox.checked;
             if (checkbox.id != 'showAll') {
                 if (estado) {
@@ -88,11 +89,15 @@
                     targets: fila,
                     translateX: '130%',
                     duration: 1500,
+                    direction: showAll.checked ? 'alternate' : 'normal',
                     backgroundColor: '#90EE90',
                     easing: 'easeInOutSine',
 
                     complete: function () {
-                        fila.remove(); // Elimina la fila una vez que la animación ha terminado
+                        if(showAll.checked == false){
+                            fila.remove(); // Elimina la fila una vez que la animación ha terminado
+                        }
+                        
                     }
                 
                 });
