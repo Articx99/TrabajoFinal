@@ -7,6 +7,13 @@ use CodeIgniter\Controller;
 
 class Register extends Controller
 {
+    protected $validation;
+
+    public function __construct()
+    {
+        $this->validation = \Config\Services::validation();
+    }
+
     public function index()
     {
         helper(['form']);
@@ -34,15 +41,15 @@ class Register extends Controller
                 ],
             ];
 
-            if (!$this->validate($rules, $errors)) {
-                $data['error'] = $this->validator->getErrors();
+            if (!$this->validation->setRules($rules, $errors)->run($this->request->getPost())) {
+                $data['error'] = $this->validation->getErrors();
             } else {
                 $model = new UserModel();
 
                 $newData = [
                     'username' => $this->request->getVar('username'),
                     'pass' => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT),
-                    'id_rol'  => 2, // Por defecto, los usuarios registrados tendrán rol 2 (Usuario)
+                    'id_rol'  => 2, 
                 ];
 
                 $model->save($newData);

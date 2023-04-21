@@ -29,6 +29,7 @@ if (!session()->get('username')) {
 } else {
     $routes->get('logout', 'Login::logout');
     $routes->get('/', 'Tareas::index');
+    $routes->get('etiquetas', 'Etiquetas::showAll');
     $routes->post('save', 'Tareas::guardar');
     $routes->post('delete', 'Tareas::delete');
     $routes->post('permaDelete', 'Tareas::permaDelete');
@@ -39,7 +40,8 @@ if (!session()->get('username')) {
     $routes->get('about', 'Tareas::about');
     $routes->get('usuarios', 'Usuarios::getUsers');
     $routes->post('complete', 'Tareas::complete');
-    $routes->post('getCompleted', 'Tareas::getCompleted');   
+    $routes->post('getCompleted', 'Tareas::getCompleted'); 
+    $routes->post('saveEtiqueta', 'Etiquetas::saveEtiqueta');  
 
 }
 
