@@ -16,15 +16,18 @@ class Tareas extends Controller
 
     public function index()
     {
-       
+
         //$tareas = $showAll === 'true' ? $this->tarea->getAll() : $this->tarea->getActive();
         $tareas = [];
         $etiquetaModel = new Etiqueta();
-        $etiquetas = $etiquetaModel->getAll(); 
-        foreach($etiquetas as $etiqueta){
-            $showAll = session('showAll'.$etiqueta['id_etiqueta']);
-            $active = $showAll == 'true' ? true : false;
-            $tareas[$etiqueta['nombre_etiqueta']] = $this->tarea->getTareasEtiqueta($etiqueta['id_etiqueta'], $active);
+        $etiquetas = $etiquetaModel->getAll();
+        $id_usuario = session('id');
+        foreach ($etiquetas as $etiqueta) {
+            if ($etiqueta['id_usuario'] === session('id') || session('admin_panel') == 'rdw') {
+                $showAll = session('showAll' . $etiqueta['id']);
+                $active = $showAll == 'true' ? true : false;
+                $tareas[$etiqueta['nombre_etiqueta']] = session('admin_panel') == 'rwd' ? $this->tarea->getTareasEtiquetaAdmin($etiqueta['id'], $active) : $this->tarea->getTareasEtiqueta($etiqueta['id'], $id_usuario, $active);
+            }
         }
         return view('index', [
             'header' => view('templates/header'),
@@ -51,12 +54,11 @@ class Tareas extends Controller
             'footer' => view('templates/footer'),
         ]);
     }
-    
+
     public function getCompleted()
     {
-        session()->set('showAll', $this->request->getVar('showAll'));
-
-        return redirect()->to(site_url('/'));
+        session()->set('showAll' . $this->request->getVar('etiqueta'), $this->request->getVar('showAll'));
+        return redirect()->to('/');
     }
 
     public function borrador()
@@ -69,63 +71,59 @@ class Tareas extends Controller
         ]);
     }
 
-    public function guardar()
+    public function save()
     {
         $contenidoTarea = $this->request->getVar('task');
         $id_usuario = $this->request->getVar('id_usuario');
         $id_etiqueta = $this->request->getVar('id_etiqueta');
-        
+
         $datos = [
             $this->tarea->getLastTask($id_usuario),
             $id_usuario,
-            $contenidoTarea,        
+            $contenidoTarea,
             1,
             $id_etiqueta
         ];
-       
-        if ($this->tarea->guardarTarea($datos)) {
+        session()->set(['id_etiqueta' => $id_etiqueta]);
+        if ($this->tarea->saveTask($datos)) {
             session()->setFlashdata('mensaje', ['texto' => 'Se ha guardado la tarea con éxito.', 'class' => 'success']);
         } else {
             session()->setFlashdata('mensaje', ['texto' => 'No se ha podido guardar la tarea por un error desconocido.', 'class' => 'warning']);
         }
-        return redirect()->to(site_url('/'));
-       
+        return redirect()->to('/');
+
     }
 
     public function complete()
     {
+
         $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
         $id_estado = $this->request->getVar('id_estado');
 
-        if ($this->tarea->completeTask($id_usuario, $id, $id_estado)) {
+        if ($this->tarea->completeTask($id, $id_estado)) {
             session()->setFlashdata('mensaje', ['texto' => 'Se ha completado la tarea con éxito.', 'class' => 'success']);
         } else {
             session()->setFlashdata('mensaje', ['texto' => 'No se ha podido completar la tarea por un error desconocido.', 'class' => 'warning']);
         }
 
-        return redirect()->to(site_url('/'));
+
     }
 
     public function delete()
     {
         $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
-
-        if ($this->tarea->deleteTarea($id_usuario, $id)) {
+        if ($this->tarea->deleteTask($id)) {
             session()->setFlashdata('mensaje', ['texto' => 'Se ha eliminado la tarea con éxito.', 'class' => 'success']);
         } else {
             session()->setFlashdata('mensaje', ['texto' => 'No se ha podido eliminar la tarea por un error desconocido.', 'class' => 'warning']);
         }
 
-        return redirect()->to(site_url('/'));
+        return redirect()->to('/');
     }
     public function permaDelete()
     {
         $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
-
-        if ($this->tarea->permaDelete($id_usuario, $id)) {
+        if ($this->tarea->permaDelete($id)) {
             $texto = "Se ha eliminado la tarea con éxito.";
             $class = "success";
         } else {
@@ -139,9 +137,9 @@ class Tareas extends Controller
         return redirect()->to($this->request->getServer('HTTP_REFERER'));
     }
 
-    public function recuperarTarea($id_usuario, $id)
+    public function recoverTask($id)
     {
-        if ($this->tarea->recuperarTarea($id_usuario, $id)) {
+        if ($this->tarea->recoverTask($id)) {
             $texto = "Se ha recuperado la tarea con éxito.";
             $class = "success";
         } else {
@@ -155,20 +153,25 @@ class Tareas extends Controller
         return redirect()->to($this->request->getServer('HTTP_REFERER'));
     }
 
-    public function viewEdit($id_usuario, $id)
+    public function viewEdit($id, $id_etiqueta)
     {
-        $datos['tareas'] = $this->tarea->getEdit($id_usuario, $id);
+        $etiquetaModel = new Etiqueta();
+        $etiquetas = $etiquetaModel->getAll();
+        $datos['tareas'] = $this->tarea->getEdit($id);
+        $datos['id_etiqueta'] = $id_etiqueta;
         $datos['header'] = view('templates/header');
         $datos['footer'] = view('templates/footer');
+        $datos['etiquetas'] = $etiquetas;
 
         return view('editTarea', $datos);
     }
     public function edit()
-    {     
+    {
         $contenidoTarea = $this->request->getVar('task');
+        $id_etiqueta = $this->request->getVar('id_etiqueta');
         $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
-        if ($this->tarea->updateTarea($contenidoTarea, $id_usuario, $id)) {
+
+        if ($this->tarea->updateTask($contenidoTarea, $id, $id_etiqueta)) {
             $_SESSION['mensaje']['texto'] = "Se ha atualizado la tarea con éxito.";
             $_SESSION['mensaje']['class'] = "success";
         } else {
@@ -176,7 +179,8 @@ class Tareas extends Controller
             $_SESSION['mensaje']['class'] = "warning";
         }
 
-        return $this->response->redirect(site_url('/'));
+        return $this->response->redirect('/');
     }
+
 
 }

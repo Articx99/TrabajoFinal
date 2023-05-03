@@ -30,10 +30,10 @@ if (!session()->get('username')) {
     $routes->get('logout', 'Login::logout');
     $routes->get('/', 'Tareas::index');
     $routes->get('etiquetas', 'Etiquetas::showAll');
-    $routes->post('save', 'Tareas::guardar');
+    $routes->post('save', 'Tareas::save');
     $routes->post('delete', 'Tareas::delete');
     $routes->post('permaDelete', 'Tareas::permaDelete');
-    $routes->get('recuperar/(:num)/(:num)', 'Tareas::recuperarTarea/$1/$2');
+    $routes->get('recover/(:num)', 'Tareas::recoverTask/$1');
     $routes->get('edit/(:num)/(:num)', 'Tareas::viewEdit/$1/$2');
     $routes->post('edit', 'Tareas::edit');
     $routes->get('borrador', 'Tareas::borrador');
@@ -42,7 +42,11 @@ if (!session()->get('username')) {
     $routes->post('complete', 'Tareas::complete');
     $routes->post('getCompleted', 'Tareas::getCompleted'); 
     $routes->post('saveEtiqueta', 'Etiquetas::saveEtiqueta');  
-
+    $routes->post('deleteEtiqueta', 'Etiquetas::delete');
+    $routes->get('editEtiqueta/(:num)', 'Etiquetas::viewEdit/$1');
+    $routes->post('editEtiqueta', 'Etiquetas::edit');
+    $routes->post('deleteUser', 'Usuarios::deleteUser');
+    $routes->post('saveUser', 'Usuarios::saveUser');
 }
 
 

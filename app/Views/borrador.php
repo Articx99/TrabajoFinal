@@ -37,9 +37,9 @@
 
             <?php foreach ($tareas as $tarea): ?>
                 <?php if ($tarea['id_usuario'] == $_SESSION['id'] || $_SESSION['admin_panel'] == 'rwd'): ?>
-                    <tr class="<?php echo $tarea['username'].$tarea['id']?>">
+                    <tr class="id<?php echo $tarea['id']?>">
                         <th scope="row">
-                            <?= esc($tarea['id']) ?>
+                            <?= esc($tarea['id_tarea']) ?>
                         </th>
                         <td>
                             <?= esc($tarea['tarea']) ?>
@@ -53,8 +53,8 @@
                             </td>
                         <?php endif ?>
                         <td>
-                            <button class="btn btn-danger button-to-strike" onclick="deleteTarea('<?php echo $tarea['id']?>', '<?php echo $tarea['id_usuario']?>', '<?php echo $tarea['username']?>', '<?php echo isset($borrador) ? 'permaDelete' : 'delete' ?>')">Delete</button> 
-                                <a href="<?= base_url('recuperar/' . $tarea['id_usuario'] . '/' . $tarea['id']) ?>" class="btn btn-info button-to-strike"
+                            <button class="btn btn-danger button-to-strike" onclick="deleteItem('<?php echo $tarea['id']?>', 'permaDelete')">Delete</button> 
+                                <a href="/<?php echo 'recuperar/' . $tarea['id'] ?>" class="btn btn-info button-to-strike"
                                     type="button">Recuperar</a>
                             
                         </td>

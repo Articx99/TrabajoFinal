@@ -14,9 +14,13 @@ class UserModel extends Model
         return $result;
     }
     
-    function deleteUsuario($id_usuario){
-        $query = $this->query('DELETE usuarios WHERE id_usuario = ?', [$id_usuario]);
+    function deleteUser($id_usuario){
+        $query = $this->query('DELETE FROM usuarios WHERE id_usuario = ?', [$id_usuario]);
         return $query;
+    }
 
+    function createUser($data){
+        $query = $this->query( 'INSERT INTO usuarios (username, pass, id_rol) VALUES (?,?,?)', $data);
+        return $query;
     }
 }

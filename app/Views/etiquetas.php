@@ -40,32 +40,32 @@
 
 
 <?php if (isset($_SESSION['mensaje'])) { ?>
-    <h2 class="text-<?php echo $_SESSION['mensaje']['class'] ?>"><?= $_SESSION['mensaje']['texto'] ?></h2>
+    <h2 class="alert alert-<?php echo $_SESSION['mensaje']['class'] ?>"><?= $_SESSION['mensaje']['texto'] ?></h2>
     <?php unset($_SESSION['mensaje']);
 } ?>
-<?php if (!isset($borrador)): ?>
-    <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2"
-        action="<?= site_url("/saveEtiqueta") ?>" method="post">
-        <div class="col d-flex justify-content-between">
-            <div class="form-outline flex-grow-1 me-1 mx-1">
-                <input type="hidden" name='id_usuario'
-                    value="<?php echo isset($_SESSION['username']['id_usuario']) ? $_SESSION['username']['id_usuario'] : '' ?>">
-                <input type="text" id="nombre_etiqueta" class="form-control" name="nombre_etiqueta" />
-                <label class="form-label" for="nombre_etiqueta">Introduce Etiqueta: </label>
-            </div>
-            <div class="col-md-auto col-auto d-flex justify-content-between">
-                <label for="color_etiqueta" class="align-self-center" id="etiqueta_label">Color:</label>
-                <input type="color" id="color_etiqueta" class="form-control" name="color_etiqueta" />
-                <p class="text-danger mb-0">
-                    <?php echo isset($errores['color_etiqueta']) ? $errores['color_etiqueta'] : ''; ?>
-                </p>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary form-control">Guardar</button>
-            </div>
+
+<form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2"
+    action="/saveEtiqueta" method="post">
+    <div class="col d-flex justify-content-between">
+        <div class="form-outline flex-grow-1 me-1 mx-1">
+            <input type="hidden" name='id_usuario'
+                value="<?php echo isset($_SESSION['username']['id_usuario']) ? $_SESSION['username']['id_usuario'] : '' ?>">
+            <input type="text" id="nombre_etiqueta" class="form-control" name="nombre_etiqueta" />
+            <label class="form-label" for="nombre_etiqueta">Introduce Etiqueta: </label>
         </div>
-    </form>
-<?php endif ?>
+        <div class="col-md-auto col-auto d-flex justify-content-between">
+            <label for="color_etiqueta" class="align-self-center" id="etiqueta_label">Color:</label>
+            <input type="color" id="color_etiqueta" class="form-control" name="color_etiqueta" />
+            <p class="text-danger mb-0">
+                <?php echo isset($errores['color_etiqueta']) ? $errores['color_etiqueta'] : ''; ?>
+            </p>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary form-control">Guardar</button>
+        </div>
+    </div>
+</form>
+
 
 <table class="table mb-4">
     <thead>
@@ -84,7 +84,7 @@
 
             <?php foreach ($etiquetas as $etiqueta): ?>
                 <?php if ($etiqueta['id_usuario'] == $_SESSION['id'] || $_SESSION['admin_panel'] == 'rwd'): ?>
-                    <tr class="<?php echo $etiqueta['username'] . $etiqueta['id_etiqueta'] ?>">
+                    <tr class="<?php echo 'id' . $etiqueta['id'] ?>">
 
                         <th scope="row">
                             <?= esc($etiqueta['id_etiqueta']) ?>
@@ -96,14 +96,14 @@
                             <?= esc($etiqueta['username']) ?>
                         </td>
                         <td>
-                            <span style="background-color: <?= esc($etiqueta['color_etiqueta']) ?>;color: transparent; "
+                            <span style="background-color: <?= esc($etiqueta['color_etiqueta']) ?>;color: transparent; border: 1px black solid; "
                                 class="rounded-circle"></span>
                         </td>
                         <td>
                             <button class="btn btn-danger button-to-strike"
-                                onclick="deleteEtiqueta('<?php echo $etiqueta['id_etiqueta'] ?>', '<?php echo $etiqueta['id_usuario'] ?>', 'permaDelete')">Delete</button>
+                                onclick="deleteItem('<?php echo $etiqueta['id'] ?>','deleteEtiqueta')">Delete</button>
 
-                            <a href="<?= base_url('edit/' . $etiqueta['id_etiqueta']) ?>" class="btn btn-info button-to-strike"
+                            <a href="/<?php echo 'editEtiqueta/' . $etiqueta['id'] ?>" class="btn btn-info button-to-strike"
                                 type="button">Editar</a>
 
                         </td>

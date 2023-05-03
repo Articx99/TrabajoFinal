@@ -8,6 +8,12 @@ use CodeIgniter\Controller;
 class Login extends Controller
 {
 	const ADMINISTADOR = 1;
+    
+    private $userModel;
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+    }
     public function index()
     {
         helper(['form']);
@@ -18,23 +24,23 @@ class Login extends Controller
             $rules = [
                 'username' => 'required',
                 'pass'     => 'required',
-            ];
+        ];
 
-            $errors = [
-                'username' => [
-                    'required' => 'El nombre de usuario es obligatorio',
-                ],
-                'pass' => [
-                    'required' => 'La contraseña es obligatoria',
-                ],
+        $errors = [
+            'username' => [
+                'required' => 'El nombre de usuario es obligatorio',
+            ],
+            'pass' => [
+                'required' => 'La contraseña es obligatoria',
+        ],
             ];
 
             if (!$this->validate($rules, $errors)) {
                 $data['error'] = $this->validator->getErrors();
             } else {
-                $userModel = new UserModel();
+                
 
-                $user = $userModel->where('username', $this->request->getVar('username'))
+                $user = $this->userModel->where('username', $this->request->getVar('username'))
                     ->first();
 
                 if (!$user || !password_verify($this->request->getVar('pass'), $user['pass'])) {
@@ -56,7 +62,8 @@ class Login extends Controller
             'id'         => $user['id_usuario'],
             'username'   => $user,
             'admin_panel' => '',
-            'showAll' => false
+            'id_etiqueta' => 0
+            
         ];
 		if($user['id_rol'] == self::ADMINISTADOR){
 			$data['admin_panel'] = 'rwd';
@@ -70,5 +77,7 @@ class Login extends Controller
         
 		return redirect()->to('/');
 	}
+
+    
 
 }

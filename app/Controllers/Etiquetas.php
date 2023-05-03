@@ -74,10 +74,9 @@ class Etiquetas extends Controller
     public function complete()
     {
         $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
         $id_estado = $this->request->getVar('id_estado');
 
-        if ($this->etiqueta->completeTask($id_usuario, $id, $id_estado)) {
+        if ($this->etiqueta->completeTask($id, $id_estado)) {
             session()->setFlashdata('mensaje', ['texto' => 'Se ha completado la etiqueta con éxito.', 'class' => 'success']);
         } else {
             session()->setFlashdata('mensaje', ['texto' => 'No se ha podido completar la etiqueta por un error desconocido.', 'class' => 'warning']);
@@ -89,9 +88,7 @@ class Etiquetas extends Controller
     public function delete()
     {
         $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
-
-        if ($this->etiqueta->deleteetiqueta($id_usuario, $id)) {
+        if ($this->etiqueta->deletEtiqueta($id)) {
             session()->setFlashdata('mensaje', ['texto' => 'Se ha eliminado la etiqueta con éxito.', 'class' => 'success']);
         } else {
             session()->setFlashdata('mensaje', ['texto' => 'No se ha podido eliminar la etiqueta por un error desconocido.', 'class' => 'warning']);
@@ -99,55 +96,22 @@ class Etiquetas extends Controller
 
         return redirect()->to(site_url('/'));
     }
-    public function permaDelete()
+
+    public function viewEdit($id)
     {
-        $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
-
-        if ($this->etiqueta->permaDelete($id_usuario, $id)) {
-            $texto = "Se ha eliminado la etiqueta con éxito.";
-            $class = "success";
-        } else {
-            $texto = "No se ha podido eliminar la etiqueta por un error desconocido.";
-            $class = "warning";
-        }
-
-        $_SESSION['mensaje']['texto'] = $texto;
-        $_SESSION['mensaje']['class'] = $class;
-
-        return redirect()->to($this->request->getServer('HTTP_REFERER'));
-    }
-
-    public function recuperaretiqueta($id_usuario, $id)
-    {
-        if ($this->etiqueta->recuperaretiqueta($id_usuario, $id)) {
-            $texto = "Se ha recuperado la etiqueta con éxito.";
-            $class = "success";
-        } else {
-            $texto = "No se ha podido recuperar la etiqueta por un error desconocido.";
-            $class = "warning";
-        }
-
-        $_SESSION['mensaje']['texto'] = $texto;
-        $_SESSION['mensaje']['class'] = $class;
-
-        return redirect()->to($this->request->getServer('HTTP_REFERER'));
-    }
-
-    public function viewEdit($id_usuario, $id)
-    {
-        $datos['etiquetas'] = $this->etiqueta->getEdit($id_usuario, $id);
+        $datos['etiquetas'] = $this->etiqueta->getEdit($id);
         $datos['header'] = view('templates/header');
         $datos['footer'] = view('templates/footer');
 
-        return view('editetiqueta', $datos);
+        return view('editEtiqueta', $datos);
     }
     public function edit()
     {     
-        $contenidoetiqueta = $this->request->getVar('task');
+        $nombre_etiqueta = $this->request->getVar('nombre_etiqueta');
+        $color_etiqueta = $this->request->getVar('color_etiqueta');
         $id = $this->request->getVar('id');
-        $id_usuario = $this->request->getVar('id_usuario');
-        if ($this->etiqueta->updateetiqueta($contenidoetiqueta, $id_usuario, $id)) {
+        
+        if ($this->etiqueta->edit($nombre_etiqueta, $color_etiqueta, $id)) {
             $_SESSION['mensaje']['texto'] = "Se ha atualizado la etiqueta con éxito.";
             $_SESSION['mensaje']['class'] = "success";
         } else {
@@ -155,6 +119,6 @@ class Etiquetas extends Controller
             $_SESSION['mensaje']['class'] = "warning";
         }
 
-        return $this->response->redirect(site_url('/'));
+        return $this->response->redirect(site_url('/etiquetas'));
     }
 }

@@ -47,12 +47,12 @@ class Register extends Controller
                 $model = new UserModel();
 
                 $newData = [
-                    'username' => $this->request->getVar('username'),
-                    'pass' => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT),
-                    'id_rol'  => 2, 
+                    $this->request->getVar('username'),
+                    password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT),
+                    2 
                 ];
 
-                $model->save($newData);
+                $model->createUser($newData);
 
                 return redirect()->to('/login');
             }

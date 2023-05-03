@@ -29,7 +29,7 @@ class Database extends Config
         'hostname' => 'localhost',
         'username' => 'admin',
         'password' => 'daw2pass',
-        'database' => 'tasklist',
+        'database' => 'proxecto',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

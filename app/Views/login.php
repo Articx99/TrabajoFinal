@@ -55,41 +55,47 @@
 
 <body>
 
-<div class="container mt-5">
+    <div class="container mt-5">
 
-	<div class="row justify-content-center">
-   
-		<div class="col-md-4">
-			<div class="card">
-           
-				<div class="card-header text-center">
-                    <p class="h1" style="border-bottom: 2px solid #ff9800">TaskLists</p>
-					<h4 class="m-0">Iniciar sesión</h4>
-				</div>
-				<div class="card-body">
-					<?php if(session('error')) : ?>
-						<div class="alert alert-danger"><?= session('error') ?></div>
-					<?php endif ?>
-                        
-					<?= form_open('login') ?>
-						<div class="form-group">
-							<label for="username">Nombre de usuario:</label>
-							<input type="text" name="username" class="form-control" value="<?= old('username') ?>">
-							<small class="text-small text-danger"><?php echo isset($error['username']) ?  $error['username'] : "" ?></small>
-						</div>
-						<div class="form-group">
-							<label for="pass">Contraseña:</label>
-							<input type="password" name="pass" class="form-control">
-							<small class="text-small text-danger"><?php echo isset($error['pass']) ?  $error['pass'] : "" ?></small>
-						</div>
-                        <a href="<?php echo base_url('register')?>"><small>No tienes cuenta? Regístrate.</small></a>
-						<button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-					<?= form_close() ?>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+        <div class="row justify-content-center">
+
+            <div class="col-md-4">
+                <div class="card">
+
+                    <div class="card-header text-center">
+                        <p class="h1" style="border-bottom: 2px solid #ff9800">TaskLists</p>
+                        <h4 class="m-0">Iniciar sesión</h4>
+                    </div>
+                    <div class="card-body">
+                        <?php if (session('error')): ?>
+                            <div class="alert alert-danger">
+                                <?= session('error') ?>
+                            </div>
+                        <?php endif ?>
+
+                        <form action="/login" method="post">
+                            <div class="form-group">
+                                <label for="username">Nombre de usuario:</label>
+                                <input type="text" name="username" class="form-control" value="<?= old('username') ?>">
+                                <small class="text-small text-danger">
+                                    <?php echo isset($error['username']) ? $error['username'] : "" ?>
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass">Contraseña:</label>
+                                <input type="password" name="pass" class="form-control">
+                                <small class="text-small text-danger">
+                                    <?php echo isset($error['pass']) ? $error['pass'] : "" ?>
+                                </small>
+                            </div>
+                            <a href="/register"><small>No tienes cuenta? Regístrate.</small></a>
+                            <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Importar los scripts de Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
