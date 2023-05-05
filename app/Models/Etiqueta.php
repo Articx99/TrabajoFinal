@@ -15,8 +15,18 @@ class Etiqueta extends Model{
         $result= $this->query('SELECT aux_etiquetas.*, usuarios.username FROM aux_etiquetas LEFT JOIN usuarios ON aux_etiquetas.id_usuario = usuarios.id_usuario  ORDER BY id_etiqueta, id_usuario')->getResultArray();           
         return $result;
     }
-    functioN getLastEtiqueta(){       
-        $query = $this->query('SELECT MAX(id_etiqueta) as max FROM aux_etiquetas ')->getResultArray();
+
+    function getUserTag($id_usuario){      
+        $result= $this->query('SELECT aux_etiquetas.* FROM aux_etiquetas  WHERE id_usuario = ?  ORDER BY id_etiqueta, id_usuario', [$id_usuario])->getResultArray();           
+        return $result;
+    }
+
+    function getTag($id_etiqueta){      
+        $result= $this->query('SELECT aux_etiquetas.* FROM aux_etiquetas  WHERE id = ?  ORDER BY id_etiqueta, id_usuario', [$id_etiqueta])->getResultArray();           
+        return $result;
+    }
+    functioN getLastEtiqueta($id_usuario){       
+        $query = $this->query('SELECT MAX(id_etiqueta) as max FROM aux_etiquetas WHERE id_usuario= ?', [$id_usuario])->getResultArray();
         $max_id = $query[0]['max']+1;
         return $max_id;
                  

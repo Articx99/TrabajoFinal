@@ -54,7 +54,7 @@
                         <?php endif ?>
                         <td>
                             <button class="btn btn-danger button-to-strike" onclick="deleteItem('<?php echo $tarea['id']?>', 'permaDelete')">Delete</button> 
-                                <a href="/<?php echo 'recuperar/' . $tarea['id'] ?>" class="btn btn-info button-to-strike"
+                                <a href="/<?php echo 'recover/' . $tarea['id'] ?>" class="btn btn-info button-to-strike"
                                     type="button">Recuperar</a>
                             
                         </td>

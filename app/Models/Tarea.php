@@ -46,8 +46,8 @@ class Tarea extends Model{
         $result= $this->query(self::SELECTFROM.'WHERE tareas.id_estado = 3 ORDER BY id_usuario, id_tarea')->getResultArray();           
         return $result;    
     }
-    function getLastTask($id_tarea){       
-        $query = $this->query('SELECT MAX(id_tarea) as max FROM tareas WHERE id_usuario = ?', $id_tarea)->getResultArray();
+    function getLastTask($id_usuario,$id_etiqueta){       
+        $query = $this->query('SELECT MAX(id_tarea) as max FROM tareas WHERE id_usuario = ? AND id_etiqueta = ?', [$id_usuario,$id_etiqueta])->getResultArray();
         $max_id = $query[0]['max']+1;
         return $max_id;
                  

@@ -23,4 +23,8 @@ class UserModel extends Model
         $query = $this->query( 'INSERT INTO usuarios (username, pass, id_rol) VALUES (?,?,?)', $data);
         return $query;
     }
+    function getUser($id_usuario){
+        $query = $this->query( 'SELECT * FROM usuarios WHERE id_usuario = ?', $id_usuario)->getResultArray();
+        return $query;
+    }
 }

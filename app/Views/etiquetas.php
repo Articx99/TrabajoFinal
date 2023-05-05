@@ -101,7 +101,7 @@
                         </td>
                         <td>
                             <button class="btn btn-danger button-to-strike"
-                                onclick="deleteItem('<?php echo $etiqueta['id'] ?>','deleteEtiqueta')">Delete</button>
+                                onclick="deleteItem('<?php echo $etiqueta['id'] ?>','deleteEtiqueta', '1')">Delete</button>
 
                             <a href="/<?php echo 'editEtiqueta/' . $etiqueta['id'] ?>" class="btn btn-info button-to-strike"
                                 type="button">Editar</a>

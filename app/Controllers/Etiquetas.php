@@ -3,7 +3,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\etiqueta;
-
+use App\Models\UserModel;
 class Etiquetas extends Controller
 {
     private $etiqueta;
@@ -51,12 +51,23 @@ class Etiquetas extends Controller
 
     public function saveEtiqueta()
     {
+        $usuario = new UserModel();
         $contenidoEtiqueta = $this->request->getVar('nombre_etiqueta');
         $id_usuario = $this->request->getVar('id_usuario');
         $color_etiqueta = $this->request->getVar('color_etiqueta');
+        if (empty($contenidoEtiqueta) || is_null($id_usuario) || is_null($color_etiqueta)) {
+            session()->setFlashdata('mensaje', ['texto' => 'El contenido de la etiqueta no puede estar vacio.', 'class' => 'warning']);
+            return redirect()->to('/');
+        }
+        $usuarioExiste = $usuario->getUser($id_usuario);
 
+        if (count($usuarioExiste) === 0) {
+            session()->setFlashdata('mensaje', ['texto' => 'Usuario Inválido.', 'class' => 'warning']);
+            return redirect()->to('/');
+        }
+        
         $datos = [
-            $this->etiqueta->getLastEtiqueta(),
+            $this->etiqueta->getLastEtiqueta($id_usuario),
             $contenidoEtiqueta,
             $id_usuario,
             $color_etiqueta

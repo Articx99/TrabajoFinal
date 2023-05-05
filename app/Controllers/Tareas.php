@@ -4,6 +4,7 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Tarea;
 use App\Models\Etiqueta;
+use App\Models\UserModel;
 
 class Tareas extends Controller
 {
@@ -20,10 +21,10 @@ class Tareas extends Controller
         //$tareas = $showAll === 'true' ? $this->tarea->getAll() : $this->tarea->getActive();
         $tareas = [];
         $etiquetaModel = new Etiqueta();
-        $etiquetas = $etiquetaModel->getAll();
+        $etiquetas = $_SESSION['admin_panel'] == 'rwd' ? $etiquetaModel->getAll() : $etiquetaModel->getUserTag($_SESSION['id']);
         $id_usuario = session('id');
         foreach ($etiquetas as $etiqueta) {
-            if ($etiqueta['id_usuario'] === session('id') || session('admin_panel') == 'rdw') {
+            if ($etiqueta['id_usuario'] === session('id') || session('admin_panel') == 'rwd') {
                 $showAll = session('showAll' . $etiqueta['id']);
                 $active = $showAll == 'true' ? true : false;
                 $tareas[$etiqueta['nombre_etiqueta']] = session('admin_panel') == 'rwd' ? $this->tarea->getTareasEtiquetaAdmin($etiqueta['id'], $active) : $this->tarea->getTareasEtiqueta($etiqueta['id'], $id_usuario, $active);
@@ -73,12 +74,29 @@ class Tareas extends Controller
 
     public function save()
     {
+       
+        $usuario = new UserModel();
+        $etiqueta = new Etiqueta();
         $contenidoTarea = $this->request->getVar('task');
         $id_usuario = $this->request->getVar('id_usuario');
         $id_etiqueta = $this->request->getVar('id_etiqueta');
 
+        // Validar que el contenido de la tarea, el id de usuario y el id de etiqueta no estén vacíos o nulos
+        if (empty($contenidoTarea) || is_null($id_usuario) || is_null($id_etiqueta)) {
+            session()->setFlashdata('mensaje', ['texto' => 'El contenido de la tarea no puede estar vacio.', 'class' => 'warning']);
+            return redirect()->to('/');
+        }
+
+        // Validar que el id de usuario y el id de etiqueta existan en la base de datos
+        $usuarioExiste = $usuario->getUser($id_usuario);
+        $etiquetaExiste = $etiqueta->getTag($id_etiqueta);
+       
+        if (count($usuarioExiste) === 0 || count($etiquetaExiste) === 0) {
+            session()->setFlashdata('mensaje', ['texto' => count($etiquetaExiste), 'class' => 'warning']);
+            return redirect()->to('/');
+        }
         $datos = [
-            $this->tarea->getLastTask($id_usuario),
+            $this->tarea->getLastTask($id_usuario,$id_etiqueta),
             $id_usuario,
             $contenidoTarea,
             1,
@@ -106,7 +124,7 @@ class Tareas extends Controller
             session()->setFlashdata('mensaje', ['texto' => 'No se ha podido completar la tarea por un error desconocido.', 'class' => 'warning']);
         }
 
-
+        return redirect()->to('/');
     }
 
     public function delete()
