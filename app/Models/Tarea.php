@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 
 class Tarea extends Model{
    
-    const SELECT = "SELECT HEX(tareas.id) as id, tareas.id_tarea,tareas.id_estado, tareas.tarea, tareas.id_etiqueta, tareas.id_usuario, aux_estados.nombre_estado, usuarios.username, aux_etiquetas.nombre_etiqueta, aux_etiquetas.color_etiqueta ";
+    const SELECT = "SELECT HEX(tareas.id) as id, tareas.id_tarea,tareas.id_estado, tareas.tarea, tareas.id_etiqueta as id_etiqueta, tareas.id_usuario, aux_estados.nombre_estado, usuarios.username, aux_etiquetas.nombre_etiqueta, aux_etiquetas.color_etiqueta ";
     const FROM = "FROM tareas LEFT JOIN aux_estados ON tareas.id_estado = aux_estados.id_estado LEFT JOIN usuarios ON tareas.id_usuario = usuarios.id_usuario LEFT JOIN aux_etiquetas ON tareas.id_etiqueta = aux_etiquetas.id ";
     const SELECTFROM = self::SELECT.self::FROM;
     protected $table = 'tareas';

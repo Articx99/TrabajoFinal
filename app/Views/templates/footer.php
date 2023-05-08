@@ -30,12 +30,13 @@
     });
 
     var checkboxes = document.querySelectorAll('input[type="checkbox"][data-etiqueta]');
-    for (var i = 0; i < checkboxes.length; i++) {
-        var checkbox = checkboxes[i];
-        var etiqueta = checkbox.dataset.etiqueta;
+    for (var j = 0; j < checkboxes.length; j++) {
+        var checkbox = checkboxes[j];
 
-        checkbox.addEventListener('change', function () {
-            value = checkbox.checked;
+        checkbox.addEventListener('change', function (event) {
+            var value = this.checked;
+            var etiqueta = event.target.getAttribute('data-etiqueta');
+
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/getCompleted', true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -78,7 +79,7 @@
                     if (tbl !== null && tbl.rows.length === 1) {
                         subDiv.style.display = 'none';
                     }
-                    
+
                 }
             });
 
@@ -88,11 +89,11 @@
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.onload = () => {
                 if (xhr.readyState === xhr.DONE && xhr.status === 200) {
-                    if(url == "deleteEtiqueta" && id_etiqueta === 0){
-                        
+                    if (url == "deleteEtiqueta" && id_etiqueta === 0) {
+
                         location.reload();
                     }
-                    
+
                     anime({
                         targets: fila,
                         opacity: 0,
@@ -105,14 +106,14 @@
                             if (tbl !== null && tbl.rows.length === 1) {
                                 subDiv.style.display = 'none';
                             }
-                           
+
                         }
                     });
-                    
+
                 }
             };
             xhr.send(`id=${id}`);
-            
+
         }
     }
 
@@ -206,10 +207,10 @@
                                     body.classList.remove('blur');
                                     deleteItem(id_etiqueta, "deleteEtiqueta");
                                     location.reload();
-                                    
+
                                 });
                                 messageContainer.appendChild(yesButton);
-                            
+
 
                                 noButton.addEventListener('click', () => {
                                     messageContainer.style.display = 'none';

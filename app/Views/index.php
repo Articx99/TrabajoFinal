@@ -112,12 +112,13 @@
                     </span>
                     <br>
                     <br>
+                    
+                    <?php var_dump($_SESSION);?>
+                    <?php var_dump($tarea[0]['id_etiqueta']);?>
                     <input class="form-check-input" type="checkbox" class="checkbox"
-                        id='showAll<?php echo $tarea[0]['id_etiqueta'] ?>' <?php echo (isset($_SESSION['showAll' . $tarea[0]['id_etiqueta']]) && $_SESSION['showAll' . $tarea[0]['id_etiqueta']] == 'true') ? 'checked' : '' ?>
-                        data-etiqueta='<?php echo $tarea[0]['id_etiqueta']; ?>'>
+                        id="<?php echo 'showAll'.$tarea[0]['id_etiqueta'] ?>" <?php echo (isset($_SESSION['showAll' . $tarea[0]['id_etiqueta']]) && $_SESSION['showAll' . $tarea[0]['id_etiqueta']] == 'true') ? 'checked' : '' ?>
+                        data-etiqueta="<?php echo $tarea[0]['id_etiqueta'] ?>">
                     <label for="showAll">Mostrar completadas</label>
-
-
                     <table class="table mb-3" id="<?php echo 'tb' . $tarea[0]['id_etiqueta'] ?>">
                         <thead>
                             <tr>
