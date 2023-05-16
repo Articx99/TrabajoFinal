@@ -13,5 +13,10 @@ class AuxRolModel extends Model
         $result= $this->query('SELECT * FROM aux_roles ORDER BY id_rol')->getResultArray();           
         return $result;
     }
+
+    function getRol($id_rol){      
+        $result= $this->query('SELECT * FROM aux_roles WHERE id_rol = ? ORDER BY id_rol', [$id_rol])->getResultArray();           
+        return $result;
+    }
     
 }

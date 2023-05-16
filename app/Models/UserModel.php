@@ -27,4 +27,14 @@ class UserModel extends Model
         $query = $this->query( 'SELECT * FROM usuarios WHERE id_usuario = ?', $id_usuario)->getResultArray();
         return $query;
     }
+    function getUserByUsername($username){
+        $query = $this->query( 'SELECT * FROM usuarios WHERE username = ?', $username)->getResultArray();
+        return $query;
+    }
+    function edit($username,$id_usuario, $pass,$id_rol){
+        $securePass = password_hash($pass, PASSWORD_DEFAULT);
+        $query = $this->query('UPDATE usuarios SET username = ?, id_rol = ?, pass = ? WHERE id_usuario = ?', [$username, $id_rol,$securePass, $id_usuario]);
+        return $query;
+
+    }
 }

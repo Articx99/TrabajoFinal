@@ -38,15 +38,22 @@ if (!session()->get('username')) {
     $routes->post('edit', 'Tareas::edit');
     $routes->get('borrador', 'Tareas::borrador');
     $routes->get('about', 'Tareas::about');
-    $routes->get('usuarios', 'Usuarios::getUsers');
+
     $routes->post('complete', 'Tareas::complete');
-    $routes->post('getCompleted', 'Tareas::getCompleted'); 
-    $routes->post('saveEtiqueta', 'Etiquetas::saveEtiqueta');  
+    $routes->post('getCompleted', 'Tareas::getCompleted');
+    $routes->post('saveEtiqueta', 'Etiquetas::saveEtiqueta');
     $routes->post('deleteEtiqueta', 'Etiquetas::delete');
     $routes->get('editEtiqueta/(:num)', 'Etiquetas::viewEdit/$1');
     $routes->post('editEtiqueta', 'Etiquetas::edit');
     $routes->post('deleteUser', 'Usuarios::deleteUser');
     $routes->post('saveUser', 'Usuarios::saveUser');
+    if ($_SESSION['admin_panel'] === 'rwd') {
+        $routes->get('usuarios', 'Usuarios::getUsers');
+        $routes->get('editUser/(:num)', 'Usuarios::viewEdit/$1');
+        $routes->post('editUser', 'Usuarios::edit');
+    }
+
+
 }
 
 

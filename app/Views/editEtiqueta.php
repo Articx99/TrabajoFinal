@@ -45,7 +45,7 @@
 } ?>
 <?php var_dump($etiquetas)?>
 <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2"
-    action="<?= base_url("editEtiqueta") ?>" method="post">
+    action="/editEtiqueta" method="post">
     <div class="col d-flex justify-content-between">
         <div class="form-outline flex-grow-1 me-1 mx-1">
             <input type="hidden" name='id_usuario'

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>TaskLists</title>
@@ -19,7 +19,7 @@
             <div class="p-4 pt-5">
                 <div class="hedaer">
                     <a href="/">
-                    <img src="/assets/images/logo3.png" width="280" height="auto">
+                    <img src="/assets/images/logo3.png" width="280" height="auto" alt="Logo TaskList">
                     </a>
                 </div>
                 

@@ -111,7 +111,7 @@
                         <button class="btn btn-danger button-to-strike"
                             onclick="deleteItem('<?php echo $usuario['id_usuario'] ?>','deleteUser')">Delete</button>
 
-                        <a href="<?= base_url('edit/' . $usuario['id_usuario']) ?>" class="btn btn-info button-to-strike"
+                        <a href="<?= base_url('editUser/' . $usuario['id_usuario']) ?>" class="btn btn-info button-to-strike"
                             type="button">Editar</a>
 
                     </td>

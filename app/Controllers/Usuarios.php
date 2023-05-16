@@ -84,7 +84,7 @@ class usuarios extends Controller
                     session()->setFlashdata('mensaje', ['texto' => 'No se ha podido guardar el usuario por un error desconocido.', 'class' => 'warning']);
                 }
             }
-            
+
         }
         $rolModel = new AuxRolModel();
         $datos['usuarios'] = $this->userModel->getAll();
@@ -94,5 +94,96 @@ class usuarios extends Controller
         return view('users', $datos);
 
     }
+    public function viewEdit($id)
+    {
+        $rolModel = new AuxRolModel();
+        $datos['usuarios'] = $this->userModel->getUser($id)[0];
+        $datos['roles'] = $rolModel->getAll();
+        $datos['header'] = view('templates/header');
+        $datos['footer'] = view('templates/footer');
+        return view('editUser', $datos);
+    }
+
+    public function edit()
+    {
+        $id_usuario = $this->request->getPost('id_usuario');
+        $id_rol = $this->request->getPost('id_rol');
+        $pass = $this->request->getPost('pass');
+        $passRepeat = $this->request->getPost('pass-repeat');
+        $username = $this->request->getPost('username');
+
+        // Validar el formulario manualmente
+        $errors = $this->checkForm($id_usuario, $id_rol, $pass, $username, $passRepeat);
+
+        if (empty($errors)) {
+            if ($this->userModel->edit($username, $id_usuario, $pass, $id_rol)) {
+                $_SESSION['mensaje']['texto'] = 'Se ha actualizado el usuario con éxito.';
+                $_SESSION['mensaje']['class'] = 'success';
+
+            } else {
+                $_SESSION['mensaje']['texto'] = 'No se ha podido actualizar el usuario debido a un error desconocido.';
+                $_SESSION['mensaje']['class'] = 'warning';
+            }
+            return redirect()->to('/usuarios');
+        } else {
+            // Mostrar errores en la vista
+            $datos['errors'] = $errors;
+        }
+        $rolModel = new AuxRolModel();
+        $datos['usuarios'] = $this->userModel->getUser($id_usuario)[0];
+        $datos['roles'] = $rolModel->getAll();
+        $datos['header'] = view('templates/header');
+        $datos['footer'] = view('templates/footer');
+        // Cargar la vista con los datos
+        return view('editUser', $datos);
+    }
+
+    public function checkForm($id_usuario, $id_rol, $pass, $username, $passRepeat)
+    {
+        $errors = [];
+
+        if (empty($id_usuario) || !is_numeric($id_usuario)) {
+            $errors['id_usuario'] = 'El ID de usuario es inválido.';
+        } 
+
+        if (empty($id_rol) || !is_numeric($id_rol)) {
+            $errors['id_rol'] = 'El ID de rol es inválido.';
+        } elseif ($this->validate_role($id_rol)) {
+            $errors['id_rol'] = 'El ID de rol no existe.';
+        }
+
+        if (empty($pass) || !preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/', $pass)) {
+            $errors['pass'] = 'La contraseña debe tener 6 caracteres, una letra y un número.';
+        }
+        if ($passRepeat !== $pass) {
+            $errors['pass-repeat'] = 'Las contraseñas deben coincidir.';
+        }
+
+        // Verificar si el nombre de usuario ya está en uso por otro usuario
+        $existingUser = $this->userModel->getUser($id_usuario);
+        if (!empty($existingUser) && $existingUser[0]['username'] !== $username && !$this->validate_username($username)) {
+            $errors['username'] = 'El nombre de usuario ya está en uso.';
+        } elseif (empty($username) || strlen($username) < 5) {
+            $errors['username'] = 'El nombre de usuario es inválido.';
+        }
+
+        return $errors;
+    }
+
+    
+    private function validate_role($id_rol)
+    {
+        $rolModel = new AuxRolModel();
+        $rol = $rolModel->getRol($id_rol);
+        return empty($rol);
+
+    }
+
+    private function validate_username($username)
+    {
+        $username = $this->userModel->getUserByUsername($username);
+        return empty($username);
+    }
+
 
 }
