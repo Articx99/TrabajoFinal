@@ -69,13 +69,13 @@
             <label for="id_etiqueta" class="align-self-center" id="etiqueta_label">Etiqueta:</label>
             <select class="form-control mx-1" name="id_etiqueta" <?php echo count($etiquetas) == 0 ? 'onchange="window.location = this.value"' : '' ?>>
                 <?php
-                
+
                 if (count($etiquetas) > 0) {
                     foreach ($etiquetas as $etiqueta) {
                         if ($etiqueta['id_usuario'] === session('id') || session('admin_panel') === 'rwd') {
                             ?>
                             <option value="<?php echo $etiqueta['id'] ?>" <?php echo ($_SESSION['id_etiqueta'] == $etiqueta['id']) ? 'selected' : ''; ?>>
-                                <?php echo $etiqueta['nombre_etiqueta'] ?></option>
+                                <?php echo session('admin_panel') === 'rwd' ? $etiqueta['nombre_etiqueta'] . ' - ' . $etiqueta['id_usuario'] : $etiqueta['nombre_etiqueta']?></option>
                             <?php
                         }
                     }
@@ -108,13 +108,13 @@
                 <div id="<?php echo 'subDiv' . $tarea[0]['id_etiqueta'] ?>">
                     <span id="etiqueta"
                         style="background-color: <?php echo $tarea[0]['color_etiqueta']; ?>; color: <?php echo $textColor ?>; border: solid 2px black">
-                        <?php echo isset($etiqueta) ? $etiqueta : '' ?>
+                        <?php echo isset($etiqueta) ? explode('-', $etiqueta)[0] : '' ?>
                     </span>
                     <br>
                     <br>
                     
-                    <?php var_dump($_SESSION);?>
-                    <?php var_dump($tarea[0]['id_etiqueta']);?>
+                    
+                   
                     <input class="form-check-input" type="checkbox" class="checkbox"
                         id="<?php echo 'showAll'.$tarea[0]['id_etiqueta'] ?>" <?php echo (isset($_SESSION['showAll' . $tarea[0]['id_etiqueta']]) && $_SESSION['showAll' . $tarea[0]['id_etiqueta']] == 'true') ? 'checked' : '' ?>
                         data-etiqueta="<?php echo $tarea[0]['id_etiqueta'] ?>">

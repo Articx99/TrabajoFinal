@@ -40,8 +40,7 @@ class Login extends Controller
             } else {
                 
 
-                $user = $this->userModel->where('username', $this->request->getVar('username'))
-                    ->first();
+                $user = $this->userModel->where('username', $this->request->getVar('username'))->first();
 
                 if (!$user || !password_verify($this->request->getVar('pass'), $user['pass'])) {
                     $data['error']['pass'] = 'El nombre de usuario o la contraseña son incorrectos';

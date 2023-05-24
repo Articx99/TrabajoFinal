@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/assets/css/style.css" rel="stylesheet">
-    
+
 
 </head>
 
@@ -19,20 +19,20 @@
             <div class="p-4 pt-5">
                 <div class="hedaer">
                     <a href="/">
-                    <img src="/assets/images/logo3.png" width="280" height="auto" alt="Logo TaskList">
+                        <img src="/assets/images/logo3.png" width="280" height="auto" alt="Logo TaskList">
                     </a>
                 </div>
-                
+
                 <ul class="list-unstyled components mb-5">
                     <li>
                         <a href="/">Home</a>
                     </li>
-                   
-                    <?php if(isset($_SESSION['admin_panel']) && $_SESSION['admin_panel']  == 'rwd'){ ?>
+
+                    <?php if (isset($_SESSION['admin_panel']) && $_SESSION['admin_panel'] == 'rwd') { ?>
                         <li>
                             <a href="/usuarios">Usuarios</a>
                         </li>
-                    <?php }?>
+                    <?php } ?>
                     <li>
                         <a href="/etiquetas">Etiquetas</a>
                     </li>
@@ -71,12 +71,12 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/">Home</a>
-                            </li>
+
 
                             <li class="nav-item active">
-                                <a class="nav-link" href="/"><?php echo $_SESSION['username']['username']?></a>
+                                <a class="nav-link" href="/">
+                                    <?php echo $_SESSION['username']['username'] ?>
+                                </a>
                             </li>
 
                             <li class="nav-item">

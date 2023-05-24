@@ -21,15 +21,16 @@ class Tareas extends Controller
         //$tareas = $showAll === 'true' ? $this->tarea->getAll() : $this->tarea->getActive();
         $tareas = [];
         $etiquetaModel = new Etiqueta();
-        $etiquetas = $_SESSION['admin_panel'] == 'rwd' ? $etiquetaModel->getAll() : $etiquetaModel->getUserTag($_SESSION['id']);
+        $etiquetas = $_SESSION['admin_panel'] == 'rwd' ? $etiquetaModel->getAll() : $etiquetaModel->getUserTag(session('id'));
         $id_usuario = session('id');
         foreach ($etiquetas as $etiqueta) {
-            if ($etiqueta['id_usuario'] === session('id') || session('admin_panel') == 'rwd') {
+            if ($etiqueta['id_usuario'] == session('id') || session('admin_panel') == 'rwd') {
                 $showAll = session('showAll' . $etiqueta['id']);
                 $active = $showAll == 'true' ? true : false;
-                $tareas[$etiqueta['nombre_etiqueta']] = session('admin_panel') == 'rwd' ? $this->tarea->getTareasEtiquetaAdmin($etiqueta['id'], $active) : $this->tarea->getTareasEtiqueta($etiqueta['id'], $id_usuario, $active);
+                $tareas[$etiqueta['nombre_etiqueta'].'-'.$etiqueta['id']] = session('admin_panel') == 'rwd' ? $this->tarea->getTareasEtiquetaAdmin($etiqueta['id'], $active) : $this->tarea->getTareasEtiqueta($etiqueta['id'], $id_usuario, $active);
             }
         }
+        
         return view('index', [
             'header' => view('templates/header'),
             'footer' => view('templates/footer'),
@@ -40,8 +41,6 @@ class Tareas extends Controller
 
     public function etiquetas()
     {
-
-
         return view('etiquetas', [
             'header' => view('templates/header'),
             'footer' => view('templates/footer'),

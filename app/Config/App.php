@@ -7,6 +7,15 @@ use CodeIgniter\Session\Handlers\FileHandler;
 
 class App extends BaseConfig
 {
+    public $baseURL;
+    public function __construct()
+    {
+        $this->initBaseURL();
+    }
+    public function initBaseURL()
+    {
+        $this->baseURL = ($_SERVER['SERVER_PORT'] == 8080) ? 'http://proxecto.localhost:8080/' : 'http://proxecto.localhost/';
+    }
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -17,7 +26,8 @@ class App extends BaseConfig
      *
      *    http://example.com/
      */
-    public string $baseURL = 'http://proxecto.localhost:8080/';
+   
+    
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -146,7 +156,7 @@ class App extends BaseConfig
      * @deprecated use Config\Session::$driver instead.
      */
     public string $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
-    
+
     /**
      * --------------------------------------------------------------------------
      * Session Cookie Name

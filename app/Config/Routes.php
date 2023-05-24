@@ -8,8 +8,7 @@ use App\Controllers\Tareas;
 $routes = Services::routes();
 
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Login');
-$routes->setDefaultMethod('index');
+
 
 if (!session()->get('username')) {
     $routes->get('login', 'Login::index');
