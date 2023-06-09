@@ -2,7 +2,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\etiqueta;
+use App\Models\Etiqueta;
 use App\Models\UserModel;
 class Etiquetas extends Controller
 {
